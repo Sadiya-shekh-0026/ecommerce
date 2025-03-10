@@ -3,6 +3,29 @@
 include('includes/authentication.php');
 include('config/dbcon.php');
 
+
+
+if(isset($_POST['delete_product']))
+{
+    $product_id = $_POST['product_id'];
+    $query = "DELETE FROM products WHERE id='$product_id'";
+    $query_run = mysqli_query($con, $query);
+
+    if($query_run)
+    {
+        $_SESSION['status'] = "Product Deleted Successfully";
+        header('Location: product.php');
+        exit(0);
+    }
+    else
+    {
+        $_SESSION['status'] = "Product Not Deleted";
+        header('Location: product.php');
+        exit(0);
+    }
+}
+
+
 if(isset($_POST['product_update']))
 {
     $product_id = $_POST['product_id'];
@@ -11,14 +34,15 @@ if(isset($_POST['product_update']))
     $small_description = $_POST['small_description'];
     $long_description = $_POST['long_description'];
     $price = $_POST['price'];
-    $offerprice = $_POST['offerprice'];
-    $tax = $_POST['tax'];
+    $offerprice = $_POST['offerprice'] ?? '0.00'; // Default offer price
+    $tax = $_POST['tax'] ?? '0';// Default tax
     $quantity = $_POST['quantity'];
     $status = isset($_POST['status']) ? '1' : '0';
 
     $image = $_FILES['image']['name'];
     $old_image = $_POST['old_image'];
 
+    // Image Handling
     if($image != '')
     {
         $allowed_extension = array('png','jpg','jpeg');
@@ -38,6 +62,8 @@ if(isset($_POST['product_update']))
         $update_filename = $old_image;
     }
 
+
+    // Update Query
     $query = "UPDATE products SET  
                 category_id='$category_id',
                 name='$name',
@@ -78,10 +104,6 @@ if(isset($_POST['product_update']))
     }
 }
 
-
-
-
-
 if(isset($_POST['product_save']))
 {
     $category_id = $_POST['category_id'];
@@ -89,8 +111,8 @@ if(isset($_POST['product_save']))
     $small_description = $_POST['small_description'];
     $long_description = $_POST['long_description'];
     $price = $_POST['price'];
-    $offerprice = $_POST['offerprice'];
-    $tax = $_POST['tax'];
+    $offerprice = $_POST['offerprice'] ?? '0.00';// Default value
+    $tax = $_POST['tax'] ?? '0';// Default value
     $quantity = $_POST['quantity'];
     $status = $_POST['status'] == true ? '1': '0';
     $image = $_FILES['image']['name'];

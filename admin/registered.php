@@ -238,6 +238,33 @@ include('config/dbcon.php');
     })
   });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form[action='code.php']").addEventListener("submit", function (event) {
+        let name = document.querySelector("input[name='name']").value.trim();
+        let phone = document.querySelector("input[name='phone']").value.trim();
+        let email = document.querySelector("input[name='email']").value.trim();
+        let password = document.querySelector("input[name='password']").value.trim();
+        let confirmpassword = document.querySelector("input[name='confirmpassword']").value.trim();
+
+        if (name === "" || phone === "" || email === "" || password === "" || confirmpassword === "") {
+            alert("All fields are required!");
+            event.preventDefault();
+            return;
+        }
+
+        if (password !== confirmpassword) {
+            alert("Passwords do not match!");
+            event.preventDefault();
+            return;
+        }
+    });
+});
+</script>
+
+<?php include('includes/footer.php'); ?>
+
 <?php include('includes/footer.php'); ?>
 
 

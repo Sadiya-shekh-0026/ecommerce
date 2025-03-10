@@ -56,7 +56,10 @@ include('includes/sidebar.php');
                                                     <a href="product-edit.php?prod_id=<?=$prod_item['id'] ?>" class="btn btn-success">Edit</a>
                                                 </td>
                                                 <td>
-                                                <a href="#" class="btn btn-danger">Delete</a>
+                                                    <form action="code.php" method="POST" class="d-inline">
+                                                        <input type="hidden" name="product_id" value="<?=$prod_item['id'] ?>">
+                                                        <button type="submit" name="delete_product" class="btn btn-danger">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>                           
                                             <?php

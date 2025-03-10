@@ -129,5 +129,24 @@ include('includes/sidebar.php');
     </section>     
         
 </div>
+
+
 <?php include('includes/script.php'); ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form[action='code.php']").addEventListener("submit", function (event) {
+        let categoryName = document.querySelector("input[name='name']").value.trim();
+        let description = document.querySelector("textarea[name='description']").value.trim();
+
+        if (categoryName === "" || description === "") {
+            alert("Category Name and Description are required!");
+            event.preventDefault(); // Form submit hone se rokna
+            return;
+        }
+    });
+});
+</script>
+
+<?php include('includes/footer.php'); ?>
+
 <?php include('includes/footer.php'); ?>

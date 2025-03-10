@@ -136,7 +136,6 @@ include('includes/sidebar.php');
         </div>
     </div>
 </section>  
-
 <?php
 }
 else
