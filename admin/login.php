@@ -37,15 +37,15 @@ if(isset($_SESSION['auth_status']))
             <form action="logincode.php" method="POST">
               <div class="form-group">
                 <label for="">Email Id</label>
-                <input type="text" name="email" class="form-control" placeholder="Email Id">
+                <input type="text" name="email" class="form-control" placeholder="Email Id" autocomplete="off">
               </div>
               <div class="form-group">
                 <label for="">Password</label>
-                <input type="text" name="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="Password">
               </div>
               <hr>
               <div class="form-group">
-                <button type="subbmit" name="login_btn" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" name="login_btn" class="btn btn-primary btn-block">Login</button>
               </div>
             </form>
           </div>

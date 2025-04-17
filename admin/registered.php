@@ -241,31 +241,63 @@ include('config/dbcon.php');
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector("form[action='code.php']").addEventListener("submit", function (event) {
-        let name = document.querySelector("input[name='name']").value.trim();
-        let phone = document.querySelector("input[name='phone']").value.trim();
-        let email = document.querySelector("input[name='email']").value.trim();
-        let password = document.querySelector("input[name='password']").value.trim();
-        let confirmpassword = document.querySelector("input[name='confirmpassword']").value.trim();
+    const form = document.querySelector("form[action='code.php']");
+    
+    form.addEventListener("submit", function (event) {
+        let isValid = true;
 
-        if (name === "" || phone === "" || email === "" || password === "" || confirmpassword === "") {
-            alert("All fields are required!");
-            event.preventDefault();
-            return;
+        // Input fields
+        const name = form.querySelector("input[name='name']");
+        const phone = form.querySelector("input[name='phone']");
+        const email = form.querySelector("input[name='email']");
+        const password = form.querySelector("input[name='password']");
+        const confirmpassword = form.querySelector("input[name='confirmpassword']");
+
+        // Clear previous error messages
+        form.querySelectorAll(".text-danger").forEach(el => el.remove());
+
+        // Name validation (alphabets only)
+        if (!/^[A-Za-z\s]+$/.test(name.value.trim())) {
+            showError(name, "Please enter a valid name (alphabets only).");
+            isValid = false;
         }
 
-        if (password !== confirmpassword) {
-            alert("Passwords do not match!");
-            event.preventDefault();
-            return;
+        // Phone validation (10 digits)
+        if (!/^\d{10}$/.test(phone.value.trim())) {
+            showError(phone, "Please enter a valid 10-digit phone number.");
+            isValid = false;
+        }
+        // Email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email.value.trim())) {
+            showError(email, "Please enter a valid email address.");
+            isValid = false;
+        }
+
+        // Password validation
+        if (password.value.length < 8) {
+            showError(password, "Password must be at least 8 characters long.");
+            isValid = false;
+        }
+
+        // Confirm password match
+        if (password.value !== confirmpassword.value) {
+            showError(confirmpassword, "Passwords do not match.");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Stop form submission
         }
     });
+
+    function showError(inputElement, message) {
+        const error = document.createElement("small");
+        error.classList.add("text-danger");
+        error.innerText = message;
+        inputElement.parentElement.appendChild(error);
+    }
 });
 </script>
 
 <?php include('includes/footer.php'); ?>
-
-<?php include('includes/footer.php'); ?>
-
-
-

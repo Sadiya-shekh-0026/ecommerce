@@ -10,7 +10,7 @@ if (!isset($_SESSION['auth'])) {
         // Admin hai toh yahan code likh sakti hain
     } else {
         $_SESSION['status'] = "You are not Authorised as ADMIN";
-        header("Location: ../index.php"); // Fix: Corrected header format
+        header("Location: ../user/index.php"); // Fix: Corrected header format
         exit(0);
     }
 }

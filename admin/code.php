@@ -232,15 +232,17 @@ if(isset($_POST['check_Emailbtn']))
     $email = $_POST['email'];
     $checkemail = "SELECT email FROM users WHERE email='$email' ";
     $checkemail_run = mysqli_query($con, $checkemail);
+
     if(mysqli_num_rows($checkemail_run) > 0)
     {
-        echo "Email id already taken.!";
+        echo "Email Already Exists!";
     }
     else
     {
-        echo "It's Available";
+        echo "";
     }
 }
+
 
 if(isset($_POST['addUser']))
 {

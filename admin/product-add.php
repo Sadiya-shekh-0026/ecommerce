@@ -67,28 +67,28 @@ include('includes/sidebar.php');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input type="text" name="price" class="from-control" placeholder="Enyer Price">
+                                    <input type="text" name="price" class="form-control" placeholder="Enyer Price">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Offer Price</label>
-                                    <input type="text" name="offerprice" class="from-control" placeholder="Enyer Offer Price">
+                                    <input type="text" name="offerprice" class="form-control" placeholder="Enyer Offer Price">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Tax</label>
-                                    <input type="text" name="tax" required placeholder="Enyer tax">
+                                    <input type="text" name="tax" class="form-control" placeholder="Enyer tax">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="text" name="quantity" required placeholder="Enyer quantity">
+                                    <input type="text" name="quantity" class="form-control" required placeholder="Enyer quantity">
                                 </div>
                             </div>
 
@@ -101,9 +101,21 @@ include('includes/sidebar.php');
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Upload Image</label>
-                                    <input type="file" name="image" class="from-control" required>
+                                    <input type="file" name="image" class="from-control" required multiple>
                                 </div>
                             </div>
+                                <!-- Multiple Images Upload Form -->
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Upload Multiple Images</label>
+                                            <form action="upload.php" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" name="product_id" value="1"> <!-- Ye product ID dynamically set karein -->
+                                                <input type="file" name="images[]" multiple required class="form-control">
+                                                <button type="submit" name="upload" class="btn btn-success mt-2">Upload Images</button>
+                                            </form>
+                                    </div>
+                                </div>
+                            
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Click to Save</label> <br>
