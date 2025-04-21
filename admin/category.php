@@ -18,15 +18,17 @@ include('includes/sidebar.php');
             </button>
         </div>
 
-        <form action="code.php" method="POST">
+        <form id="categoryForm" action="code.php" method="POST">
             <div class="modal-body">
                 <div class="form-group">
                     <label for="">Category Name</label>
-                    <input type="text" name="name" class="form-control" required>
+                    <input type="text" name="name" class="form-control" >
+                    <small class="text-danger" id="nameError"></small>
                 </div>
                 <div class="form-group">
                     <label for="">Description</label>
-                    <textarea name="description" class="form-control" required rows="3"></textarea>
+                    <textarea name="description" class="form-control" rows="3"></textarea>
+                    <small class="text-danger" id="descError"></small>
                 </div>
                 <div class="form-group">
                     <label for="">Trending</label>
@@ -134,19 +136,43 @@ include('includes/sidebar.php');
 <?php include('includes/script.php'); ?>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector("form[action='code.php']").addEventListener("submit", function (event) {
-        let categoryName = document.querySelector("input[name='name']").value.trim();
-        let description = document.querySelector("textarea[name='description']").value.trim();
+    const form = document.querySelector("form[action='code.php']");
+    const nameInput = form.querySelector("input[name='name']");
+    const descInput = form.querySelector("textarea[name='description']");
 
-        if (categoryName === "" || description === "") {
-            alert("Category Name and Description are required!");
-            event.preventDefault(); // Form submit hone se rokna
-            return;
+    form.addEventListener("submit", function (event) {
+        let isValid = true;
+        let nameValue = nameInput.value.trim();
+        let descValue = descInput.value.trim();
+
+        // Category Name: only letters and space
+        const nameRegex = /^[A-Za-z\s]+$/;
+        // Description: allow letters, numbers, space, and basic punctuation
+        const descRegex = /^[A-Za-z0-9\s.,!()\-]+$/;
+
+        if (nameValue === "") {
+            alert("Category Name is required.");
+            isValid = false;
+        } else if (!nameRegex.test(nameValue)) {
+            alert("Category Name should contain only alphabets.");
+            isValid = false;
+        }
+
+        if (descValue === "") {
+            alert("Description is required.");
+            isValid = false;
+        } else if (!descRegex.test(descValue)) {
+            alert("Description can only contain alphabets, numbers, and basic punctuation.");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
         }
     });
 });
 </script>
 
-<?php include('includes/footer.php'); ?>
+
 
 <?php include('includes/footer.php'); ?>

@@ -22,7 +22,7 @@ include('includes/sidebar.php');
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form action="code.php" method="POST"enctype="multipart/form-data">
+                        <form action="code.php" method="POST" enctype="multipart/form-data">
 
                             
                             <div class="row">
@@ -46,35 +46,38 @@ include('includes/sidebar.php');
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Product Name</label><br>
-                                    <input type="text" name="name" class="from-control" required placeholder="Enyer Product Name" >
+                                    <input type="text" name="name" id="name" class="from-control" placeholder="Enyer Product Name" >
+                                    <small class="text-danger" id="name_error"></small>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Small Description</label>
-                                    <textarea name="small_description" class="form-control" required rows="3" placeholder="Enyer Small Descriptione"></textarea>
+                                    <textarea name="small_description" class="form-control" rows="3" placeholder="Enyer Small Descriptione"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Long Description</label>
-                                    <textarea name="long_description" class="form-control" required rows="3" placeholder="Enyer Small Descriptione"></textarea>
+                                    <textarea name="long_description" class="form-control" rows="3" placeholder="Enyer Small Descriptione"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input type="text" name="price" class="form-control" placeholder="Enyer Price">
+                                    <input type="text" name="price" id="price" class="form-control" placeholder="Enyer Price">
+                                    <small class="text-danger" id="price_error"></small>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Offer Price</label>
-                                    <input type="text" name="offerprice" class="form-control" placeholder="Enyer Offer Price">
+                                    <input type="text" name="offerprice" id="offerprice" class="form-control" placeholder="Enyer Offer Price">
+                                    <small class="text-danger" id="offerprice_error"></small>
                                 </div>
                             </div>
 
@@ -88,7 +91,8 @@ include('includes/sidebar.php');
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="text" name="quantity" class="form-control" required placeholder="Enyer quantity">
+                                    <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Enyer quantity">
+                                    <small class="text-danger" id="quantity_error"></small>
                                 </div>
                             </div>
 
@@ -101,7 +105,7 @@ include('includes/sidebar.php');
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Upload Image</label>
-                                    <input type="file" name="image" class="from-control" required multiple>
+                                    <input type="file" name="image" class="from-control" multiple>
                                 </div>
                             </div>
                                 <!-- Multiple Images Upload Form -->
@@ -110,7 +114,7 @@ include('includes/sidebar.php');
                                         <label>Upload Multiple Images</label>
                                             <form action="upload.php" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" name="product_id" value="1"> <!-- Ye product ID dynamically set karein -->
-                                                <input type="file" name="images[]" multiple required class="form-control">
+                                                <input type="file" name="images[]" class="form-control" multiple>
                                                 <button type="submit" name="upload" class="btn btn-success mt-2">Upload Images</button>
                                             </form>
                                     </div>

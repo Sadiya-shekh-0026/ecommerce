@@ -337,6 +337,116 @@ if(isset($_POST['DeleteUserbtn']))
     }
 }
 
+
+if (isset($_POST['registerbtn'])) {
+    $name = trim($_POST['name']);
+    $phone = trim($_POST['phone']);
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+
+    $errors = [];
+
+    // Name validation (alphabets only)
+    if (!preg_match("/^[A-Za-z ]+$/", $name)) {
+        $errors[] = "Please enter a valid name (alphabets only).";
+    }
+
+    // Phone validation (10 digits)
+    if (!preg_match("/^[0-9]{10}$/", $phone)) {
+        $errors[] = "Please enter a valid 10-digit phone number.";
+    }
+
+    // Email validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Please enter a valid email address.";
+    }
+
+    // Password validation
+    if (strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters.";
+    }
+
+    // Password match
+    if ($password !== $cpassword) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    // Check if email already exists
+    $check_query = "SELECT * FROM users WHERE email='$email'";
+    $check_result = mysqli_query($con, $check_query);
+    if (mysqli_num_rows($check_result) > 0) {
+        $errors[] = "Email already exists.";
+    }
+
+    if (count($errors) > 0) {
+        // Agar error hai to alert show karo
+        foreach ($errors as $error) {
+            echo "<script>alert('$error'); window.location.href='registered.php';</script>";
+        }
+    } else {
+        // Sab valid hai to insert karo
+        $query = "INSERT INTO users (name, phone, email, password) VALUES ('$name', '$phone', '$email', '$password')";
+        $query_run = mysqli_query($con, $query);
+
+        if ($query_run) {
+            echo "<script>alert('User registered successfully.'); window.location.href='registered.php';</script>";
+        } else {
+            echo "<script>alert('Something went wrong.'); window.location.href='registered.php';</script>";
+        }
+    }
+}
+
+
+include('config/dbcon.php');
+
+if(isset($_POST['category_save']))
+{
+    $name = trim($_POST['name']);
+    $description = trim($_POST['description']);
+    $trending = isset($_POST['trending']) ? '1':'0';
+    $status = isset($_POST['status']) ? '1':'0';
+
+    // Regex patterns
+    $name_pattern = "/^[A-Za-z\s]+$/";
+    $desc_pattern = "/^[A-Za-z0-9\s.,!()\-]+$/";
+
+    // Backend Validation
+    if(empty($name) || empty($description)) {
+        $_SESSION['message'] = "All fields are required.";
+        header("Location: category.php");
+        exit(0);
+    }
+    elseif(!preg_match($name_pattern, $name)) {
+        $_SESSION['message'] = "Category Name should contain only alphabets.";
+        header("Location: category.php");
+        exit(0);
+    }
+    elseif(!preg_match($desc_pattern, $description)) {
+        $_SESSION['message'] = "Description can contain only letters, numbers and some symbols (, . ! ( ) -)";
+        header("Location: category.php");
+        exit(0);
+    }
+    else {
+        // Inserting into DB
+        $query = "INSERT INTO categories (name, description, trending, status) 
+                  VALUES ('$name', '$description', '$trending', '$status')";
+        $query_run = mysqli_query($con, $query);
+
+        if($query_run)
+        {
+            $_SESSION['message'] = "Category added successfully";
+        }
+        else
+        {
+            $_SESSION['message'] = "Something went wrong!";
+        }
+        header("Location: category.php");
+        exit(0);
+    }
+}
+
+
 ?>
 
 
