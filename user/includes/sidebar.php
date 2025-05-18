@@ -12,7 +12,7 @@
 			<div class="sidebar-content flex-w w-full p-lr-65 js-pscroll">
 				<ul class="sidebar-link w-full">
 					<li class="p-b-13">
-						<a href="index.html" class="stext-102 cl2 hov-cl1 trans-04">
+						<a href="index.php" class="stext-102 cl2 hov-cl1 trans-04">
 							Home
 						</a>
 					</li>

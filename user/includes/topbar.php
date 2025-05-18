@@ -14,16 +14,15 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="index.html">Home</a>
-								<ul class="sub-menu">
-									<li><a href="index.html">Homepage 1</a></li>
-									<li><a href="home-02.html">Homepage 2</a></li>
-									<li><a href="home-03.html">Homepage 3</a></li>
-								</ul>
+								<a href="index.php">Home</a>
+								<!-- <ul class="sub-menu">
+									<li><a href="index.php">Homepage 1</a></li>
+									
+								</ul> -->
 							</li>
 
 							<li>
-								<a href="product.html">Shop</a>
+								<a href="./pages/product.php">Shop</a>
 							</li>
 
 							<li class="label1" data-label1="hot">
@@ -31,15 +30,15 @@
 							</li>
 
 							<li>
-								<a href="blog.html">Blog</a>
+								<a href="./pages/blog.php">Blog</a>
 							</li>
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="./pages/about.php">About</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="./pages/contact.php">Contact</a>
 							</li>
 						</ul>
 					</div>	
@@ -72,7 +71,7 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"></a>
+				<a href="./pages/index.php"><img src="assets/images/icons/logo-01.png" alt="IMG-LOGO"></a>
 			</div>
 
 			<!-- Icon header -->
@@ -103,9 +102,9 @@
 		<div class="menu-mobile">
 			<ul class="main-menu-m">
 				<li>
-					<a href="index.html">Home</a>
+					<a href="./pages/index.php">Home</a>
 					<ul class="sub-menu-m">
-						<li><a href="index.html">Homepage 1</a></li>
+						<li><a href="./pages/index.php">Homepage 1</a></li>
 						
 					</ul>
 					<span class="arrow-main-menu-m">
@@ -114,23 +113,23 @@
 				</li>
 
 				<li>
-					<a href="product.html">Shop</a>
+					<a href="./pages/product.php">Shop</a>
 				</li>
 
 				<li>
-					<a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+					<a href="./pages/shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
 				</li>
 
 				<li>
-					<a href="blog.html">Blog</a>
+					<a href="./pages/blog.php">Blog</a>
 				</li>
 
 				<li>
-					<a href="about.html">About</a>
+					<a href="./pages/about.php">About</a>
 				</li>
 
 				<li>
-					<a href="contact.html">Contact</a>
+					<a href="./pages/contact.php">Contact</a>
 				</li>
 			</ul>
 		</div>

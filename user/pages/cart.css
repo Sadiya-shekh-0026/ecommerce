@@ -1,0 +1,62 @@
+.table-shopping-cart table{
+    text-align: center;
+    width: 100%;
+}
+
+.table-shopping-cart table thead th{
+    padding: 1.5rem;
+    font-size: 2rem;
+    color:var(--width);
+    background-color: var(--black);
+}
+
+.table-shopping-cart table tr td{
+    border-bottom: var(--border);
+    padding: 1.5rem;
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.table-shopping-cart table input[type="number"]{
+    border: var(--border);
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    color: var(--black);
+    width: 10rem;
+}
+
+.table-shopping-cart table input[type="submit"]{
+    padding: .5rem 1.5rem;
+    cursor: pointer;
+    font-size: 2rem;
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+.table-shopping-cart table input[type="submit"]:hover{
+    background-color: var(--black);
+}
+
+.table-shopping-cart table .table-bottom{
+    background-color: var(--bg-color);
+}
+.cart-buttons .btn {
+    padding: 1rem 2rem;
+    font-size: 1.6rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    background-color: black;
+}

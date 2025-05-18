@@ -103,7 +103,7 @@ if(isset($_POST['product_update']))
         exit(0);
     }
 }
-
+//Product Save or create new product 
 if(isset($_POST['product_save']))
 {
     $category_id = $_POST['category_id'];
@@ -115,27 +115,77 @@ if(isset($_POST['product_save']))
     $tax = $_POST['tax'] ?? '0';// Default value
     $quantity = $_POST['quantity'];
     $status = $_POST['status'] == true ? '1': '0';
-    $image = $_FILES['image']['name'];
+    // $image = $_FILES['images']['name'];
 
-    $allowed_extension = array('png','jpg','jpeg');
-    $file_extension = pathinfo($image, PATHINFO_EXTENSION);
+    // $allowed_extension = array('png','jpg','jpeg');
+    // $file_extension = pathinfo($image, PATHINFO_EXTENSION);
 
-    $filename = time().'.'.$file_extension;
+    //$filename = time().'.'.$file_extension;
 
-    if(!in_array($file_extension, $allowed_extension))
-    {
-        $_SESSION['status'] = "You are allowed with only jpg, png, jpeg Image";
-        header("Location: product-add.php");
-        exit(0);
-    }
-    else
-    {
-        $query = "INSERT INTO products (category_id,name,small_description,long_description,price,offerprice,tax,quantity,image,status) 
-        VALUES ('$category_id','$name','$small_description','$long_description','$price','$offerprice','$tax','$quantity','$filename','$status')";
+    // if(!in_array($file_extension, $allowed_extension))
+    // {
+    //     $_SESSION['status'] = "You are allowed with only jpg, png, jpeg Image";
+    //     header("Location: product-add.php");
+    //     exit(0);
+    // }
+    // else
+    // {
+
+   
+        $query = "INSERT INTO products (category_id,name,small_description,long_description,price,offerprice,tax,quantity,status) 
+        VALUES ('$category_id','$name','$small_description','$long_description','$price','$offerprice','$tax','$quantity','$status')";
         $query_run = mysqli_query($con, $query);
+        // $query2 = "INSERT INTO product_images (image )
+        // VALUES ('$filename')";
+        
         if($query_run)
         {
-            move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/product/'.$filename);
+            $last_id = $con->insert_id;
+            //This Code for mutiple image uplode
+            $targetDir = "uploads/"; 
+            $allowTypes = array('jpg','png','jpeg','gif'); 
+            
+            $statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
+        
+            $fileNames = array_filter($_FILES['images']['name']); 
+
+            
+            if(!empty($fileNames)){ 
+                foreach($_FILES['images']['name'] as $key=>$val){ 
+                    // File upload path 
+                    $fileName = basename($_FILES['images']['name'][$key]); 
+                    $targetFilePath = $targetDir . $fileName; 
+                     
+                    // Check whether file type is valid 
+                    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION); 
+                    if(in_array($fileType, $allowTypes)){ 
+                        // Upload file to server 
+                        if(move_uploaded_file($_FILES["images"]["tmp_name"][$key], $targetFilePath)){ 
+                            // Image db insert sql 
+                          // Insert image file name into database 
+                            $insert = $con->query("INSERT INTO product_images (product_id,image) VALUES ( $last_id ,'$fileName')"); 
+                            if($insert){ 
+                                echo $statusMsg = "Files are uploaded successfully.".$errorMsg; 
+                                echo "uploaded succesfully";
+                            }else{ 
+                                $statusMsg = "Sorry, there was an error uploading your file."; 
+                            } 
+                        }else{ 
+                            $errorUpload .= $_FILES['images']['name'][$key].' | '; 
+                        } 
+                    }else{ 
+                        $errorUploadType .= $_FILES['images']['name'][$key].' | '; 
+                    } 
+                } 
+                 
+                // Error message 
+                echo  $errorUpload = !empty($errorUpload)?'Upload Error: '.trim($errorUpload, ' | '):''; 
+                echo  $errorUploadType = !empty($errorUploadType)?'File Type Error: '.trim($errorUploadType, ' | '):''; 
+                echo  $errorMsg = !empty($errorUpload)?'<br/>'.$errorUpload.'<br/>'.$errorUploadType:'<br/>'.$errorUploadType; 
+                echo $statusMsg = "Upload failed! ".$errorMsg; 
+            }else{ 
+                echo  $statusMsg = 'Please select a file to upload.'; 
+            } 
             $_SESSION['status'] = "Product Added Successfully";
             header("Location: product-add.php");
             exit(0);
@@ -148,8 +198,23 @@ if(isset($_POST['product_save']))
         }
 
 
-    }
+  //  }
 
+}
+
+
+
+
+// Get images from the database
+$query = $con->query("SELECT * FROM images ORDER BY id DESC");
+
+if($query->num_rows > 0){
+    while($row = $query->fetch_assoc()){
+        $imageURL = 'uploads/'.$row["file_name"];
+        echo '<img src="'.$imageURL.'" alt="" />';
+    }
+}else{
+    echo "<p>No image(s) found...</p>";
 }
 
 
@@ -447,7 +512,77 @@ if(isset($_POST['category_save']))
 }
 
 
-?>
+
+if (isset($_POST['product_save'])) {
+    $category_id = mysqli_real_escape_string($con, $_POST['category_id']);
+    $name = mysqli_real_escape_string($con, trim($_POST['name']));
+    $small_description = mysqli_real_escape_string($con, trim($_POST['small_description']));
+    $long_description = mysqli_real_escape_string($con, trim($_POST['long_description']));
+    $price = mysqli_real_escape_string($con, trim($_POST['price']));
+    $offerprice = mysqli_real_escape_string($con, trim($_POST['offerprice']));
+    $tax = mysqli_real_escape_string($con, trim($_POST['tax']));
+    $quantity = mysqli_real_escape_string($con, trim($_POST['quantity']));
+    $status = isset($_POST['status']) ? 1 : 0;
+
+    // Validate Required Fields
+    $errors = [];
+
+    if (empty($category_id)) {
+        $errors[] = "Category is required.";
+    }
+    if (empty($name)) {
+        $errors[] = "Product name is required.";
+    }
+    if (empty($price) || !is_numeric($price) || $price <= 0) {
+        $errors[] = "Valid price is required.";
+    }
+    if (!empty($offerprice) && (!is_numeric($offerprice) || $offerprice < 0)) {
+        $errors[] = "Valid offer price is required.";
+    }
+    if (empty($quantity) || !is_numeric($quantity) || $quantity < 0) {
+        $errors[] = "Valid quantity is required.";
+    }
+
+    // If errors exist, redirect back with error message
+    if (!empty($errors)) {
+        $_SESSION['error'] = implode("<br>", $errors);
+        header('Location: product-add.php');
+        exit();
+    }
+
+    // If no errors, proceed with saving product
+    // Handle image upload (optional - agar file upload karna ho)
+    if (!empty($_FILES['images']['name'][0])) {
+        $image_names = [];
+        foreach ($_FILES['images']['name'] as $key => $image_name) {
+            $image_tmp_name = $_FILES['images']['tmp_name'][$key];
+            $new_image_name = time() . '-' . basename($image_name);
+            $upload_path = "uploads/products/" . $new_image_name;
+
+            if (move_uploaded_file($image_tmp_name, $upload_path)) {
+                $image_names[] = $new_image_name;
+            }
+        }
+        $all_images = implode(",", $image_names); // Multiple images separated by comma
+    } else {
+        $all_images = "";
+    }
+
+    // Insert data into database
+    $query = "INSERT INTO products (category_id, name, small_description, long_description, price, offer_price, tax, quantity, status, images) 
+              VALUES ('$category_id', '$name', '$small_description', '$long_description', '$price', '$offerprice', '$tax', '$quantity', '$status', '$all_images')";
+
+    $query_run = mysqli_query($con, $query);
+
+    if ($query_run) {
+        $_SESSION['success'] = "Product Added Successfully.";
+        header('Location: product.php');
+    } else {
+        $_SESSION['error'] = "Something Went Wrong. Please try again.";
+        header('Location: product-add.php');
+    }
+}
+
 
 
 
